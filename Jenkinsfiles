@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage("Clonaining"){
+            
+            steps{
+                
+                git branch: 'main', url: 'https://github.com/Arshad-ullah/flutter-devops'
+                
+                sh '''
+                pwd
+                ls -l
+                '''
+                
+                
+                
+            }
+        }
+    
+        stage("building"){
+            steps{
+                
+                echo 'building....'
+                sh '''
+                flutter clean
+                flutter pub get
+                
+                flutter build apk --release
+                '''
+            }
+        }
+        
+        stage("Deploying"){
+            steps{
+                echo "Deploying done.."
+            }
+        }
+    }
+}
