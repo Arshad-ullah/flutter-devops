@@ -6,12 +6,7 @@ pipeline{
             
             steps{
                 
-                git branch: 'main', url: 'https://github.com/Arshad-ullah/flutter-devops'
-                
-                sh '''
-                pwd
-                ls -l
-                '''
+              echo "Cloning done"
                 
                 
                 
