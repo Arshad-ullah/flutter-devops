@@ -54,6 +54,20 @@ pipeline {
 
 post {
     success {
+
+            sh '''
+        cat > build-info.txt <<EOF
+Flutter APK Build Information
+
+Job Name: ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+Status: SUCCESS
+APK Location: ~/Desktop/Builds/
+Build URL: ${BUILD_URL}
+EOF
+    '''
+
+
         mail(
             subject: "✅ Jenkins Build Successful - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
             body: """
@@ -74,7 +88,8 @@ post {
                 Regards,
                 Jenkins
             """,
-            to: "jahan665577@gmail.com"
+            to: "jahan665577@gmail.com",
+            attachments: "build-info.txt"
         )
     }
 
