@@ -51,52 +51,55 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            emailext(
-                subject: "✅ Jenkins Build Successful - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    Hello,
 
-                    The Flutter APK was successfully built and deployed.
+post {
+    success {
+        mail(
+            subject: "✅ Jenkins Build Successful - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+                Hello,
 
-                    Job: ${env.JOB_NAME}
-                    Build Number: #${env.BUILD_NUMBER}
-                    Status: SUCCESS
+                The Flutter APK was successfully built and deployed.
 
-                    APK Location:
-                    ~/Desktop/Builds/
+                Job: ${env.JOB_NAME}
+                Build Number: #${env.BUILD_NUMBER}
+                Status: SUCCESS
 
-                    Jenkins Build:
-                    ${env.BUILD_URL}
+                APK Location:
+                ~/Desktop/Builds/
 
-                    Regards,
-                    Jenkins
-                """,
-                to: "jahan665577@gmail.com"
-            )
-        }
+                Jenkins Build:
+                ${env.BUILD_URL}
 
-        failure {
-            emailext(
-                subject: "❌ Jenkins Build Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    Hello,
-
-                    The Jenkins build has failed.
-
-                    Job: ${env.JOB_NAME}
-                    Build Number: #${env.BUILD_NUMBER}
-                    Status: FAILURE
-
-                    Check the Jenkins console output:
-                    ${env.BUILD_URL}
-
-                    Regards,
-                    Jenkins
-                """,
-                to: "jahan665577@gmail.com"
-            )
-        }
+                Regards,
+                Jenkins
+            """,
+            to: "jahan665577@gmail.com"
+        )
     }
+
+    failure {
+        mail(
+            subject: "❌ Jenkins Build Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+                Hello,
+
+                The Jenkins build has failed.
+
+                Job: ${env.JOB_NAME}
+                Build Number: #${env.BUILD_NUMBER}
+                Status: FAILURE
+
+                Check the Jenkins console output:
+                ${env.BUILD_URL}
+
+                Regards,
+                Jenkins
+            """,
+            to: "jahan665577@gmail.com"
+        )
+    }
+}
+
+
 }
