@@ -38,7 +38,12 @@ pipeline{
             steps{
                 echo "build the apk"
 
-                sh 'flutter build apk --release'
+                sh '''
+                
+                flutter build apk --release
+                     
+                '''
+
 
 
             }
@@ -47,9 +52,15 @@ pipeline{
         stage('Deployment'){
 
             steps{
-                echo "Deployment is done"
+               sh 
+               
+               '''
+             mkdir -p ~/Desktop/Builds
+             cp build/app/outputs/flutter-apk/app-release.apk ~/Desktop/Builds/app.apk                  
+               
 
-                echo "Succefull"
+            echo "Successfull deployed"
+               '''
             }
         }
     }
