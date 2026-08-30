@@ -3,7 +3,7 @@ pipeline{
 
   
     stages{
-        stage("Clonaining"){
+        stage("Clone Stage"){
             
             steps{
                 
@@ -14,22 +14,42 @@ pipeline{
             }
         }
     
-        stage("building"){
+        stage("Dependencies"){
             steps{
                 
-                echo 'building....'
+                echo 'Dependencies'
                 sh '''
                 flutter clean
                 flutter pub get
                 
-                flutter build apk --release
+               
                 '''
             }
         }
         
-        stage("Deploying"){
+
+        stage('Test stage'){
             steps{
-                echo "Deploying done.."
+
+                sh 'flutter test'
+            }
+        }
+        stage("Build stage"){
+            steps{
+                echo "build the apk"
+
+                sh 'flutter build apk --release'
+
+
+            }
+        }
+
+        stage('Deployment'){
+
+            steps{
+                echo "Deployment is done"
+
+                echo "Succefull"
             }
         }
     }
