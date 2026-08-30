@@ -54,7 +54,8 @@ pipeline{
             steps{
                sh '''
              mkdir -p ~/Desktop/Builds
-             cp build/app/outputs/flutter-apk/app-release.apk ~/Desktop/Builds/app.apk                  
+             Date=$(date +"%d-%m-%Y_%H-%M-%S")
+             cp build/app/outputs/flutter-apk/app-release.apk ~/Desktop/Builds/$Date.apk                  
                
 
             echo "Successfull deployed"
