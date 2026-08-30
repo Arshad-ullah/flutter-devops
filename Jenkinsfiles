@@ -52,9 +52,7 @@ pipeline{
         stage('Deployment'){
 
             steps{
-               sh 
-               
-               '''
+               sh '''
              mkdir -p ~/Desktop/Builds
              cp build/app/outputs/flutter-apk/app-release.apk ~/Desktop/Builds/app.apk                  
                
