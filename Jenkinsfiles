@@ -1,66 +1,102 @@
-pipeline{
+pipeline {
     agent any
 
-  
-    stages{
-        stage("Clone Stage"){
-            
-            steps{
-                
-              echo "Cloning done"
-                
-                
-                
+    stages {
+
+        stage("Clone Stage") {
+            steps {
+                echo "Cloning done"
             }
         }
-    
-        stage("Dependencies"){
-            steps{
-                
-                echo 'Dependencies'
+
+        stage("Dependencies") {
+            steps {
+                echo "Dependencies"
                 sh '''
-                flutter clean
-                flutter pub get
-                
-               
+                    flutter clean
+                    flutter pub get
                 '''
             }
         }
-        
 
-        stage('Test stage'){
-            steps{
-
+        stage("Test Stage") {
+            steps {
                 sh 'flutter test'
             }
         }
-        stage("Build stage"){
-            steps{
-                echo "build the apk"
+
+        stage("Build Stage") {
+            steps {
+                echo "Build the APK"
 
                 sh '''
-                
-                flutter build apk --release
-                     
+                    flutter build apk --release
                 '''
-
-
-
             }
         }
 
-        stage('Deployment'){
+        stage("Deployment") {
+            steps {
+                sh '''
+                    mkdir -p ~/Desktop/Builds
 
-            steps{
-               sh '''
-             mkdir -p ~/Desktop/Builds
-             Date=$(date +"%d-%m-%Y_%H-%M-%S")
-             cp build/app/outputs/flutter-apk/app-release.apk ~/Desktop/Builds/$Date.apk                  
-               
+                    DATE=$(date +"%d-%m-%Y_%H-%M-%S")
 
-            echo "Successfull deployed"
-               '''
+                    cp build/app/outputs/flutter-apk/app-release.apk \
+                    ~/Desktop/Builds/$DATE.apk
+                '''
+
+                echo "Successfully deployed"
             }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                subject: "✅ Jenkins Build Successful - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Hello,
+
+                    The Flutter APK was successfully built and deployed.
+
+                    Job: ${env.JOB_NAME}
+                    Build Number: #${env.BUILD_NUMBER}
+                    Status: SUCCESS
+
+                    APK Location:
+                    ~/Desktop/Builds/
+
+                    Jenkins Build:
+                    ${env.BUILD_URL}
+
+                    Regards,
+                    Jenkins
+                """,
+                to: "arshadullah.icp@gmail.com"
+            )
+        }
+
+        failure {
+            emailext(
+                subject: "❌ Jenkins Build Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Hello,
+
+                    The Jenkins build has failed.
+
+                    Job: ${env.JOB_NAME}
+                    Build Number: #${env.BUILD_NUMBER}
+                    Status: FAILURE
+
+                    Check the Jenkins console output:
+                    ${env.BUILD_URL}
+
+                    Regards,
+                    Jenkins
+                """,
+                to: "arshadullah.icp@gmail.com"
+            )
         }
     }
 }
