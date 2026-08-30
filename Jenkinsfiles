@@ -73,7 +73,7 @@ pipeline {
                     Regards,
                     Jenkins
                 """,
-                to: "arshadullah.icp@gmail.com"
+                to: "jahan665577@gmail.com"
             )
         }
 
@@ -95,7 +95,7 @@ pipeline {
                     Regards,
                     Jenkins
                 """,
-                to: "arshadullah.icp@gmail.com"
+                to: "jahan665577@gmail.com"
             )
         }
     }
