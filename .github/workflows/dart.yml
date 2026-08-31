@@ -1,8 +1,12 @@
-name: firs-job
+name: first-workflow
 on: workflow_dispatch
+
 jobs:
-  first:
+  first-job:
     runs-on: ubuntu-22.04
     steps:
       - name: simple print message
-        run: echo "Hello testing"
+        run: echo "Hello world"
+
+      - name: working directly
+        run: pwd
