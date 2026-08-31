@@ -1,9 +1,22 @@
 name: work-flow
+
 on: workflow_dispatch
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: simple-message
-        run: echo "Hello testing"
-        
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.14.0
+        with:
+          channel: stable
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
