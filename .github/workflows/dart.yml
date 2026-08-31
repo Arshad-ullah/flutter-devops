@@ -5,10 +5,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: create file
-        run: touch demo.txt
-
-      - name: add test
-        run: echo "Hello work"> demo.txt
-
-      - name: test
-        run: ls -l demo.txt
+        run: |
+          echo "Hello testing"
+          echo "=============="
+          touch demo.txt
