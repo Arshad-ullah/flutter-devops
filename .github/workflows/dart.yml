@@ -1,0 +1,8 @@
+name: firs-job
+on: workflow_dispatch
+jobs:
+  first:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: simple print message
+        run: echo "Hello testing"
