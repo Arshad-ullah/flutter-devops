@@ -1,11 +1,9 @@
-name: simle-flow
-on: push
+name: work-flow
+on: workflow_dispatch
 jobs:
-  first-job:
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: create file
-        run: |
-          echo "Hello testing"
-          echo "=============="
-          touch demo.txt
+      - name: simple-message
+        run: echo "Hello testing"
+        
