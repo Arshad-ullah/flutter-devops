@@ -1,5 +1,5 @@
 name: simle-flow
-on: workflow_dispatch
+on: push
 jobs:
   first-job:
     runs-on: ubuntu-22.04
