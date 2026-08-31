@@ -1,12 +1,14 @@
-name: first-workflow
+name: simle-flow
 on: workflow_dispatch
-
 jobs:
   first-job:
     runs-on: ubuntu-22.04
     steps:
-      - name: simple print message
-        run: echo "Hello world"
+      - name: create file
+        run: touch demo.txt
 
-      - name: working directly
-        run: pwd
+      - name: add test
+        run: echo "Hello work"> demo.txt
+
+      - name: test
+        run: ls -l demo.txt
