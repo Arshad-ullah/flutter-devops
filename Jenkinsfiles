@@ -55,17 +55,17 @@ pipeline {
 post {
     success {
 
-            sh '''
-        cat > build-info.txt <<EOF
-Flutter APK Build Information
+//             sh '''
+//         cat > build-info.txt <<EOF
+// Flutter APK Build Information
 
-Job Name: ${JOB_NAME}
-Build Number: ${BUILD_NUMBER}
-Status: SUCCESS
-APK Location: ~/Desktop/Builds/
-Build URL: ${BUILD_URL}
-EOF
-    '''
+// Job Name: ${JOB_NAME}
+// Build Number: ${BUILD_NUMBER}
+// Status: SUCCESS
+// APK Location: ~/Desktop/Builds/
+// Build URL: ${BUILD_URL}
+// EOF
+//     '''
 
 
         mail(
@@ -89,7 +89,7 @@ EOF
                 Jenkins
             """,
             to: "jahan665577@gmail.com",
-            attachments: "build-info.txt"
+            // attachments: "build-info.txt"
         )
     }
 
