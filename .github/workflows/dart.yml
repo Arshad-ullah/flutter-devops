@@ -1,6 +1,9 @@
 name: flutter-project
 
-on: workflow_dispatch
+on:
+  push:
+    branches: 
+      - main
 
 jobs:
   build:
