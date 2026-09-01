@@ -16,7 +16,7 @@ jobs:
         run: flutter pub get
 
       - name: flutter-apk
-        run: flutter build apk --reelase
+        run: flutter build apk --release
         
 
       
