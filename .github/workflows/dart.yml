@@ -1,19 +1,25 @@
-name: first-flow
+name: flutter-project
 on: workflow_dispatch
 jobs:
-  first-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: simple-message
-        run: |
-         echo "Testing done"
-         echo "Devops done"
+      - name: checkout-code
+        uses: actions/checkout@v7
 
-      - name: second
-        run: echo "Second"
+      - name: setup-flutter
+        uses: subosito/flutter-action@v2.14.0
+        with:
+          channel: stable
 
+      - name: get dependency
+        run: flutter pub get
 
+      - name: flutter-apk
+        run: flutter build apk --reelase
+        
 
+      
    
 
     
