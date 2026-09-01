@@ -2,12 +2,13 @@ name: flutter-project
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: checkout-code
         uses: actions/checkout@v7
@@ -23,8 +24,14 @@ jobs:
       - name: flutter-apk
         run: flutter build apk --release
 
+      - name: Rename APK
+        run: |
+          DATE_TIME=$(date +"%d-%m-%Y_%H-%M-%S")
+          mv build/app/outputs/flutter-apk/app-release.apk \
+             build/app/outputs/flutter-apk/${DATE_TIME}.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: flutter-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/*.apk
