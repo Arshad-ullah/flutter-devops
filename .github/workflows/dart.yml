@@ -6,6 +6,6 @@ jobs:
     steps:
       - name: variables
         run: |
-          echo "GITHUB_ACTION===> ${{GITHUB_ACTION}}"
+          echo "GITHUB_ACTION===> ${{ github.action }}"
         
     
