@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  flutter:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,9 @@ jobs:
 
       - name: get dependency
         run: flutter pub get
+
+      - name: flutter-test
+        run: flutter test
 
       - name: flutter-apk
         run: flutter build apk --release
@@ -36,21 +39,27 @@ jobs:
           name: flutter-apk
           path: build/app/outputs/flutter-apk/*.apk
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: checkout-code
-        uses: actions/checkout@v7
-
-      - name: setup-flutter
-        uses: subosito/flutter-action@v2.14.0
+      - name: Send mail
+        if: success()
+        uses: dawidd6/action-send-mail@v3
         with:
-          channel: stable
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
 
-      - name: get dependency
-        run: flutter pub get
+          subject: Flutter APK Build Successful
 
-      - name: flutter-test
-        run: flutter test
-      
+          to: arshadullah.icp@gmail.com
+
+          from: GitHub Actions <jahan665577@gmail.com>
+
+          body: |
+            Flutter APK build completed successfully.
+
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+
+            Download APK:
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
