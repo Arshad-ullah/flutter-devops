@@ -106,7 +106,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
 
-          subject: "✅ Flutter APK Build Successful - ${{ github.repository }} (${{ env.APK_NAME }})"
+          subject: "Flutter APK Build Successful - ${{ github.repository }} (${{ env.APK_NAME }})"
 
           to: arshadullah.icp@gmail.com
 
