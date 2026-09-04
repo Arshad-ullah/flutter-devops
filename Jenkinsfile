@@ -131,7 +131,7 @@ pipeline {
                     docker run --rm \
                     -v "$WORKSPACE:/app" \
                     -w /app \
-                    ghcr.io/cirruslabs/flutter:3.47.0 \
+                    fischerscode/flutter \
                     flutter pub get
                 '''
             }
