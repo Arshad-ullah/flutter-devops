@@ -161,7 +161,7 @@
 pipeline {
 
     agent {
-        docker {
+        dockerContainer {
             image 'python'
         }
     }
