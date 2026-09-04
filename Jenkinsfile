@@ -162,6 +162,8 @@ pipeline{
 
     environment {
     IMAGE_NAME = "myapp"
+
+    IMAGE_TAG = "${BUILD_NUMBER}"
 }
 
     stages{
@@ -170,8 +172,8 @@ pipeline{
                 echo "========Build image A========"
 
                 sh '''
-                docker build -t $IMAGE_NAME .
-                docker run --rm $IMAGE_NAME
+               docker build -t $IMAGE_NAME:$IMAGE_TAG .
+               docker run --rm $IMAGE_NAME:$IMAGE_TAG
                 
                 '''
             }
