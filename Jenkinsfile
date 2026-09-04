@@ -157,59 +157,60 @@
 
 
 
-pipeline{
+
+pipeline {
+
     agent {
-        
-        docker{
+        docker {
             image 'python'
         }
     }
 
-    environment {
-    IMAGE_NAME = "myapp"
+    stages {
 
-    IMAGE_TAG = "${BUILD_NUMBER}"
-}
-
-    stages{
-        stage("Build image"){
-            steps{
-                echo "========Build image A========"
+        stage("Build") {
+            steps {
+                echo "======== Build ========"
 
                 sh '''
-               docker build -t $IMAGE_NAME:$IMAGE_TAG .
-               docker run --rm $IMAGE_NAME:$IMAGE_TAG
-                
+                    python --version
+                    python demo.py
                 '''
             }
-            
         }
 
-        stage("Testing"){
+        stage("Testing") {
+            steps {
+                echo "======== Testing ========"
 
-            steps{
-
-                echo "====++++Testing++++===="
+                sh '''
+                    python --version
+                '''
             }
         }
 
-        stage("Deployment"){
-            steps{
-                echo "====++++executing Deployment++++===="
+        stage("Deployment") {
+            steps {
+                echo "======== Deployment ========"
+
+                sh '''
+                    echo "Deploying application..."
+                '''
             }
-            post{
-                always{
-                    echo "====++++always++++===="
+
+            post {
+                always {
+                    echo "======== Always ========"
                 }
-                success{
-                    echo "====++++Deployment executed successfully++++===="
+
+                success {
+                    echo "======== Deployment Successful ========"
                 }
-                failure{
-                    echo "====++++Deployment execution failed++++===="
+
+                failure {
+                    echo "======== Deployment Failed ========"
                 }
-        
             }
         }
     }
-   
 }
