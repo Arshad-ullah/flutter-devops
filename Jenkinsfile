@@ -131,7 +131,7 @@ pipeline {
             --platform linux/amd64 \
             -v "$WORKSPACE:/app" \
             -w /app \
-            ghcr.io/gmeligio/flutter-android:3.47.0 \
+            ghcr.io/adrianjagielak/flutter:3.47.0 \
             flutter build apk --release
         '''
     }
