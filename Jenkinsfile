@@ -113,44 +113,92 @@
 
 
 
-pipeline {
+// pipeline {
+//     agent any
+
+//     environment {
+//         FLUTTER_IMAGE = 'ghcr.io/adrianjagielak/flutter:3.47.0'
+
+//         // Persistent cache directories on the Jenkins machine
+//         GRADLE_CACHE = "${HOME}/.jenkins/docker-cache/gradle"
+//         ANDROID_CACHE = "${HOME}/.jenkins/docker-cache/android"
+//         PUB_CACHE = "${HOME}/.jenkins/docker-cache/pub"
+//     }
+
+//     stages {
+
+//         stage('Build Flutter') {
+//             steps {
+//                 sh '''
+//                     echo "Creating cache directories..."
+
+//                     mkdir -p "$GRADLE_CACHE"
+//                     mkdir -p "$ANDROID_CACHE"
+//                     mkdir -p "$PUB_CACHE"
+
+//                     echo "Starting Flutter Docker build..."
+
+//                     docker run --rm \
+//                       --platform linux/amd64 \
+//                       -v "$WORKSPACE:/app" \
+//                       -v "$GRADLE_CACHE:/root/.gradle" \
+//                       -v "$ANDROID_CACHE:/root/.android" \
+//                       -v "$PUB_CACHE:/root/.pub-cache" \
+//                       -w /app \
+//                       "$FLUTTER_IMAGE" \
+//                       flutter build apk --release
+//                 '''
+//             }
+//         }
+//     }
+
+    
+// }
+
+
+
+pipeline{
     agent any
 
-    environment {
-        FLUTTER_IMAGE = 'ghcr.io/adrianjagielak/flutter:3.47.0'
+    stages{
+        stage("Build image"){
+            steps{
+                echo "========Build image A========"
 
-        // Persistent cache directories on the Jenkins machine
-        GRADLE_CACHE = "${HOME}/.jenkins/docker-cache/gradle"
-        ANDROID_CACHE = "${HOME}/.jenkins/docker-cache/android"
-        PUB_CACHE = "${HOME}/.jenkins/docker-cache/pub"
-    }
-
-    stages {
-
-        stage('Build Flutter') {
-            steps {
                 sh '''
-                    echo "Creating cache directories..."
-
-                    mkdir -p "$GRADLE_CACHE"
-                    mkdir -p "$ANDROID_CACHE"
-                    mkdir -p "$PUB_CACHE"
-
-                    echo "Starting Flutter Docker build..."
-
-                    docker run --rm \
-                      --platform linux/amd64 \
-                      -v "$WORKSPACE:/app" \
-                      -v "$GRADLE_CACHE:/root/.gradle" \
-                      -v "$ANDROID_CACHE:/root/.android" \
-                      -v "$PUB_CACHE:/root/.pub-cache" \
-                      -w /app \
-                      "$FLUTTER_IMAGE" \
-                      flutter build apk --release
+                docker build -t myapp .
+                docker run --rm myapp
+                
                 '''
+            }
+            
+        }
+
+        stage("Testing"){
+
+            steps{
+
+                echo "====++++Testing++++===="
+            }
+        }
+
+        stage("Deployment"){
+            steps{
+                echo "====++++executing Deployment++++===="
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++Deployment executed successfully++++===="
+                }
+                failure{
+                    echo "====++++Deployment execution failed++++===="
+                }
+        
             }
         }
     }
-
-    
+   
 }
