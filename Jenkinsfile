@@ -113,6 +113,7 @@
 
 
 
+
 pipeline {
     agent any
 
@@ -130,7 +131,7 @@ pipeline {
                     docker run --rm \
                     -v "$WORKSPACE:/app" \
                     -w /app \
-                    ghcr.io/cirruslabs/flutter:stable \
+                    ghcr.io/cirruslabs/flutter:3.47.0 \
                     flutter pub get
                 '''
             }
