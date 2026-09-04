@@ -160,14 +160,18 @@
 pipeline{
     agent any
 
+    environment {
+    IMAGE_NAME = "myapp"
+}
+
     stages{
         stage("Build image"){
             steps{
                 echo "========Build image A========"
 
                 sh '''
-                docker build -t myapp .
-                docker run --rm myapp
+                docker build -t $IMAGE_NAME .
+                docker run --rm $IMAGE_NAME
                 
                 '''
             }
