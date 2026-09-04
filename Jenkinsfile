@@ -127,7 +127,7 @@ pipeline {
         stage('Build Flutter') {
             steps {
                 sh '''
-                    docker run --rm \   
+                    docker run --rm \
                     -v "$WORKSPACE:/app" \
                     -w /app \
                     ghcr.io/adrianjagielak/flutter:3.47.0 \
