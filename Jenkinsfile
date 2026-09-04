@@ -158,7 +158,12 @@
 
 
 pipeline{
-    agent any
+    agent {
+        
+        docker{
+            image 'python'
+        }
+    }
 
     environment {
     IMAGE_NAME = "myapp"
