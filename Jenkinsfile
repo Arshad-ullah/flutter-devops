@@ -159,41 +159,32 @@
 
 
 node{
-
-
-
-
         stage("Build") {
-            steps {
+            
                 echo "======== Build ========"
 
                 sh '''
                 docker build -t myapp .
                 docker run --rm myapp
                 '''
-            }
+      
         }
 
         stage("Testing") {
-            steps {
+      
                 echo "======== Testing ========"
 
                 
-            }
+     
         }
 
         stage("Deployment") {
-            steps {
+           
                 echo "======== Deployment ========"
 
                 sh '''
                     echo "Deploying application..."
                 '''
-            }
-
-           
+   
         }
-
-
-
 }
