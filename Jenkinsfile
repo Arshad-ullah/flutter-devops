@@ -158,33 +158,36 @@
 
 
 
-node{
-        stage("Build") {
+// node{
+//         stage("Build") {
             
-                echo "======== Build ========"
+//                 echo "======== Build ========"
 
-                sh '''
-                docker build -t myapp .
-                docker run --rm myapp
-                '''
+//                 sh '''
+//                 docker build -t myapp .
+//                 docker run --rm myapp
+//                 '''
       
-        }
+//         }
 
-        stage("Testing") {
+//         stage("Testing") {
       
-                echo "======== Testing ========"
+//                 echo "======== Testing ========"
 
                 
      
-        }
+//         }
 
-        stage("Deployment") {
+//         stage("Deployment") {
            
-                echo "======== Deployment ========"
+//                 echo "======== Deployment ========"
 
-                sh '''
-                    echo "Deploying application..."
-                '''
+//                 sh '''
+//                     echo "Deploying application..."
+//                 '''
    
-        }
-}
+//         }
+// }
+
+
+
