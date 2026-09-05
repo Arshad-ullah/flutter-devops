@@ -160,11 +160,8 @@
 
 pipeline {
 
-    agent {
-        dockerContainer {
-            image 'python'
-        }
-    }
+    agent any
+    
 
     stages {
 
@@ -214,3 +211,5 @@ pipeline {
         }
     }
 }
+
+
