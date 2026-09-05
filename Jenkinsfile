@@ -161,7 +161,7 @@
 pipeline {
 
     agent any
-    
+
 
     stages {
 
@@ -170,8 +170,8 @@ pipeline {
                 echo "======== Build ========"
 
                 sh '''
-                    python --version
-                    python demo.py
+                docker build -t myapp .
+                docker run --rm myapp
                 '''
             }
         }
@@ -180,9 +180,7 @@ pipeline {
             steps {
                 echo "======== Testing ========"
 
-                sh '''
-                    python --version
-                '''
+                
             }
         }
 
@@ -195,19 +193,7 @@ pipeline {
                 '''
             }
 
-            post {
-                always {
-                    echo "======== Always ========"
-                }
-
-                success {
-                    echo "======== Deployment Successful ========"
-                }
-
-                failure {
-                    echo "======== Deployment Failed ========"
-                }
-            }
+           
         }
     }
 }
