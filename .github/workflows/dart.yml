@@ -1,170 +1,207 @@
-name: flutter-project
+# name: flutter-project
 
+# on: workflow_dispatch
+
+# # on:
+# #   push:
+# #     branches:
+# #       - main
+
+# jobs:
+#   flutter:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # --------------------------------------------------
+#       # Checkout source code
+#       # --------------------------------------------------
+#       - name: Checkout Code
+#         uses: actions/checkout@v7
+
+#       # --------------------------------------------------
+#       # Setup Flutter
+#       # --------------------------------------------------
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v2.14.0
+#         with:
+#           channel: stable
+
+#       # --------------------------------------------------
+#       # Install dependencies
+#       # --------------------------------------------------
+#       - name: Get Dependencies
+#         run: flutter pub get
+
+#       # --------------------------------------------------
+#       # Run Flutter tests
+#       # --------------------------------------------------
+#       - name: Run Tests
+#         run: flutter test
+
+#       # --------------------------------------------------
+#       # Build APK
+#       # --------------------------------------------------
+#       - name: Build APK
+#         run: flutter build apk --release
+
+#       # --------------------------------------------------
+#       # Get Flutter information
+#       # --------------------------------------------------
+#       - name: Get Flutter Info
+#         run: |
+#           flutter --version
+#           dart --version
+
+#       # --------------------------------------------------
+#       # Rename APK
+#       # --------------------------------------------------
+#       - name: Rename APK
+#         run: |
+#           DATE_TIME=$(date +"%d-%m-%Y_%H-%M-%S")
+#           APK_NAME="${DATE_TIME}.apk"
+
+#           mv build/app/outputs/flutter-apk/app-release.apk \
+#              build/app/outputs/flutter-apk/$APK_NAME
+
+#           echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
+
+#       # --------------------------------------------------
+#       # Create Build Information
+#       # --------------------------------------------------
+#       - name: Create Build Info
+#         run: |
+#           cat > build-info.txt <<EOF
+#           ============================================================
+#                            FLUTTER APK BUILD REPORT
+#           ============================================================
+
+#           APP INFORMATION
+#           ------------------------------------------------------------
+#           Repository       : ${{ github.repository }}
+#           Repository URL   : ${{ github.server_url }}/${{ github.repository }}
+
+#           BUILD INFORMATION
+#           ------------------------------------------------------------
+#           Build Number     : ${{ github.run_number }}
+#           Build Date       : $(date +"%d-%m-%Y %H:%M:%S")
+#           Build Status     : SUCCESS
+#           Build Trigger    : Push to main branch
+
+#           SOURCE CODE
+#           ------------------------------------------------------------
+#           Branch           : ${{ github.ref_name }}
+#           Commit SHA       : ${{ github.sha }}
+#           Commit URL       : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+
+#           ENVIRONMENT
+#           ------------------------------------------------------------
+#           Flutter Version  : $(flutter --version | head -n 1 | sed 's/Flutter //')
+#           Dart Version     : $(dart --version 2>&1 | sed 's/Dart version //')
+#           Runner OS        : $RUNNER_OS
+#           Runner Name      : $RUNNER_NAME
+
+#           APK INFORMATION
+#           ------------------------------------------------------------
+#           APK File         : ${{ env.APK_NAME }}
+#           APK Path         : build/app/outputs/flutter-apk/
+#           APK Size         : $(du -h build/app/outputs/flutter-apk/${{ env.APK_NAME }} | cut -f1)
+
+#           CI/CD INFORMATION
+#           ------------------------------------------------------------
+#           Workflow         : ${{ github.workflow }}
+#           Workflow Run     : #${{ github.run_number }}
+#           Workflow URL     : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+#           ============================================================
+#                          BUILD COMPLETED SUCCESSFULLY
+#           ============================================================
+#           EOF
+
+#       # --------------------------------------------------
+#       # Upload APK as GitHub Artifact
+#       # --------------------------------------------------
+#       - name: Upload APK
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: flutter-apk
+#           path: build/app/outputs/flutter-apk/*.apk
+
+#       # --------------------------------------------------
+#       # Send Build Report Email
+#       # --------------------------------------------------
+#       - name: Send Mail
+#         if: success()
+#         uses: dawidd6/action-send-mail@v3
+#         with:
+#           server_address: smtp.gmail.com
+#           server_port: 465
+#           secure: true
+
+#           username: ${{ secrets.MAIL_USERNAME }}
+#           password: ${{ secrets.MAIL_PASSWORD }}
+
+#           subject: Flutter APK Build 
+
+#           to: arshadullah.icp@gmail.com
+
+#           from: GitHub Actions <jahan665577@gmail.com>
+
+#           body: |
+#             Hello,
+
+#             The Flutter APK build has completed successfully.
+
+#             BUILD SUMMARY
+#             ------------------------------
+#             Repository : ${{ github.repository }}
+#             Branch     : ${{ github.ref_name }}
+#             Build      : #${{ github.run_number }}
+#             APK        : ${{ env.APK_NAME }}
+
+#             Flutter    : $(flutter --version | head -n 1)
+
+#             Workflow:
+#             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+#             The APK and detailed build report are attached.
+
+#           attachments: |
+          
+#             build-info.txt
+
+
+
+name: build-apk
 on: workflow_dispatch
-
-# on:
-#   push:
-#     branches:
-#       - main
-
 jobs:
-  flutter:
-    runs-on: ubuntu-latest
-
+  build-apk:
+    runs-on: ubuntu-22.04
     steps:
-      # --------------------------------------------------
-      # Checkout source code
-      # --------------------------------------------------
-      - name: Checkout Code
+      - name: clone-code
         uses: actions/checkout@v7
 
-      # --------------------------------------------------
-      # Setup Flutter
-      # --------------------------------------------------
+      # setup flutter
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2.14.0
+        uses: subosito/flutter-action@v2
         with:
           channel: stable
 
-      # --------------------------------------------------
-      # Install dependencies
-      # --------------------------------------------------
-      - name: Get Dependencies
+
+      - name: Get dependancy
+
         run: flutter pub get
 
-      # --------------------------------------------------
-      # Run Flutter tests
-      # --------------------------------------------------
-      - name: Run Tests
-        run: flutter test
-
-      # --------------------------------------------------
+            # --------------------------------------------------
       # Build APK
       # --------------------------------------------------
       - name: Build APK
         run: flutter build apk --release
 
-      # --------------------------------------------------
-      # Get Flutter information
-      # --------------------------------------------------
-      - name: Get Flutter Info
-        run: |
-          flutter --version
-          dart --version
-
-      # --------------------------------------------------
-      # Rename APK
-      # --------------------------------------------------
-      - name: Rename APK
-        run: |
-          DATE_TIME=$(date +"%d-%m-%Y_%H-%M-%S")
-          APK_NAME="${DATE_TIME}.apk"
-
-          mv build/app/outputs/flutter-apk/app-release.apk \
-             build/app/outputs/flutter-apk/$APK_NAME
-
-          echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
-
-      # --------------------------------------------------
-      # Create Build Information
-      # --------------------------------------------------
-      - name: Create Build Info
-        run: |
-          cat > build-info.txt <<EOF
-          ============================================================
-                           FLUTTER APK BUILD REPORT
-          ============================================================
-
-          APP INFORMATION
-          ------------------------------------------------------------
-          Repository       : ${{ github.repository }}
-          Repository URL   : ${{ github.server_url }}/${{ github.repository }}
-
-          BUILD INFORMATION
-          ------------------------------------------------------------
-          Build Number     : ${{ github.run_number }}
-          Build Date       : $(date +"%d-%m-%Y %H:%M:%S")
-          Build Status     : SUCCESS
-          Build Trigger    : Push to main branch
-
-          SOURCE CODE
-          ------------------------------------------------------------
-          Branch           : ${{ github.ref_name }}
-          Commit SHA       : ${{ github.sha }}
-          Commit URL       : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-
-          ENVIRONMENT
-          ------------------------------------------------------------
-          Flutter Version  : $(flutter --version | head -n 1 | sed 's/Flutter //')
-          Dart Version     : $(dart --version 2>&1 | sed 's/Dart version //')
-          Runner OS        : $RUNNER_OS
-          Runner Name      : $RUNNER_NAME
-
-          APK INFORMATION
-          ------------------------------------------------------------
-          APK File         : ${{ env.APK_NAME }}
-          APK Path         : build/app/outputs/flutter-apk/
-          APK Size         : $(du -h build/app/outputs/flutter-apk/${{ env.APK_NAME }} | cut -f1)
-
-          CI/CD INFORMATION
-          ------------------------------------------------------------
-          Workflow         : ${{ github.workflow }}
-          Workflow Run     : #${{ github.run_number }}
-          Workflow URL     : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-          ============================================================
-                         BUILD COMPLETED SUCCESSFULLY
-          ============================================================
-          EOF
-
-      # --------------------------------------------------
-      # Upload APK as GitHub Artifact
-      # --------------------------------------------------
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: flutter-apk
-          path: build/app/outputs/flutter-apk/*.apk
-
-      # --------------------------------------------------
-      # Send Build Report Email
-      # --------------------------------------------------
-      - name: Send Mail
-        if: success()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-
-          subject: Flutter APK Build 
-
-          to: arshadullah.icp@gmail.com
-
-          from: GitHub Actions <jahan665577@gmail.com>
-
-          body: |
-            Hello,
-
-            The Flutter APK build has completed successfully.
-
-            BUILD SUMMARY
-            ------------------------------
-            Repository : ${{ github.repository }}
-            Branch     : ${{ github.ref_name }}
-            Build      : #${{ github.run_number }}
-            APK        : ${{ env.APK_NAME }}
-
-            Flutter    : $(flutter --version | head -n 1)
-
-            Workflow:
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-            The APK and detailed build report are attached.
-
-          attachments: |
-          
-            build-info.txt
+          path: build/app/outputs/flutter-apk/app-release.apk
+      
+        
+      
